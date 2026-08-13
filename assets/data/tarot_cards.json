@@ -1,0 +1,1328 @@
+[
+  {
+    "id": "major_00",
+    "nameEn": "The Fool",
+    "nameZh": "愚人",
+    "arcana": "major",
+    "suit": null,
+    "number": 0,
+    "imagePath": "assets/images/cards/00-TheFool.png",
+    "keywords": [
+      "新开始",
+      "冒险",
+      "自由",
+      "天真"
+    ],
+    "uprightMeaning": "象征全新的开始与未知的冒险，提醒你保持初心、勇敢踏出第一步。",
+    "reversedMeaning": "提示鲁莽冲动或对风险考虑不足，需要三思而后行。"
+  },
+  {
+    "id": "major_01",
+    "nameEn": "The Magician",
+    "nameZh": "魔术师",
+    "arcana": "major",
+    "suit": null,
+    "number": 1,
+    "imagePath": "assets/images/cards/01-TheMagician.png",
+    "keywords": [
+      "创造力",
+      "行动力",
+      "资源",
+      "自信"
+    ],
+    "uprightMeaning": "你拥有实现目标所需的一切工具与能力，是时候主动出击、化想法为行动。",
+    "reversedMeaning": "可能代表能力被误用、缺乏专注，或计划尚未准备充分。"
+  },
+  {
+    "id": "major_02",
+    "nameEn": "The High Priestess",
+    "nameZh": "女祭司",
+    "arcana": "major",
+    "suit": null,
+    "number": 2,
+    "imagePath": "assets/images/cards/02-TheHighPriestess.png",
+    "keywords": [
+      "直觉",
+      "潜意识",
+      "神秘",
+      "内在智慧"
+    ],
+    "uprightMeaning": "提醒你倾听直觉与内心声音，答案往往藏在表象之下。",
+    "reversedMeaning": "暗示忽视直觉、信息被隐瞒，或与内在自我失去连接。"
+  },
+  {
+    "id": "major_03",
+    "nameEn": "The Empress",
+    "nameZh": "女皇",
+    "arcana": "major",
+    "suit": null,
+    "number": 3,
+    "imagePath": "assets/images/cards/03-TheEmpress.png",
+    "keywords": [
+      "丰饶",
+      "滋养",
+      "创造",
+      "母性"
+    ],
+    "uprightMeaning": "代表富足、创造力与关怀，是滋养自己与他人成果的时刻。",
+    "reversedMeaning": "可能指创造力受阻、过度依赖或忽视自我照顾。"
+  },
+  {
+    "id": "major_04",
+    "nameEn": "The Emperor",
+    "nameZh": "皇帝",
+    "arcana": "major",
+    "suit": null,
+    "number": 4,
+    "imagePath": "assets/images/cards/04-TheEmperor.png",
+    "keywords": [
+      "权威",
+      "结构",
+      "掌控",
+      "稳定"
+    ],
+    "uprightMeaning": "象征秩序、领导力与稳固的根基，适合建立规则与长远规划。",
+    "reversedMeaning": "暗示专制、僵化或对掌控的过度执着。"
+  },
+  {
+    "id": "major_05",
+    "nameEn": "The Hierophant",
+    "nameZh": "教皇",
+    "arcana": "major",
+    "suit": null,
+    "number": 5,
+    "imagePath": "assets/images/cards/05-TheHierophant.png",
+    "keywords": [
+      "传统",
+      "信仰",
+      "指导",
+      "制度"
+    ],
+    "uprightMeaning": "代表传统智慧、精神指引与体制内的学习，可寻求导师建议。",
+    "reversedMeaning": "可能象征质疑传统、打破常规或寻找属于自己的信仰方式。"
+  },
+  {
+    "id": "major_06",
+    "nameEn": "The Lovers",
+    "nameZh": "恋人",
+    "arcana": "major",
+    "suit": null,
+    "number": 6,
+    "imagePath": "assets/images/cards/06-TheLovers.png",
+    "keywords": [
+      "关系",
+      "选择",
+      "和谐",
+      "价值观"
+    ],
+    "uprightMeaning": "象征深刻的连接与重要抉择，关乎爱情或价值观的一致。",
+    "reversedMeaning": "暗示关系失衡、沟通不良或艰难的取舍。"
+  },
+  {
+    "id": "major_07",
+    "nameEn": "The Chariot",
+    "nameZh": "战车",
+    "arcana": "major",
+    "suit": null,
+    "number": 7,
+    "imagePath": "assets/images/cards/07-TheChariot.png",
+    "keywords": [
+      "意志力",
+      "胜利",
+      "掌控",
+      "前进"
+    ],
+    "uprightMeaning": "凭借坚定意志与专注，你能克服阻碍、勇往直前取得胜利。",
+    "reversedMeaning": "可能代表方向失控、缺乏纪律或内在冲突拖慢脚步。"
+  },
+  {
+    "id": "major_08",
+    "nameEn": "Strength",
+    "nameZh": "力量",
+    "arcana": "major",
+    "suit": null,
+    "number": 8,
+    "imagePath": "assets/images/cards/08-Strength.png",
+    "keywords": [
+      "勇气",
+      "耐心",
+      "内在力量",
+      "温柔"
+    ],
+    "uprightMeaning": "真正的力量来自耐心与同理心而非蛮力，以柔克刚方能致胜。",
+    "reversedMeaning": "暗示自我怀疑、缺乏自信或情绪失控。"
+  },
+  {
+    "id": "major_09",
+    "nameEn": "The Hermit",
+    "nameZh": "隐士",
+    "arcana": "major",
+    "suit": null,
+    "number": 9,
+    "imagePath": "assets/images/cards/09-TheHermit.png",
+    "keywords": [
+      "内省",
+      "独处",
+      "寻找真理",
+      "智慧"
+    ],
+    "uprightMeaning": "是时候退一步独自沉思，向内寻找答案与人生方向。",
+    "reversedMeaning": "可能代表过度孤立、逃避现实或拒绝他人帮助。"
+  },
+  {
+    "id": "major_10",
+    "nameEn": "Wheel of Fortune",
+    "nameZh": "命运之轮",
+    "arcana": "major",
+    "suit": null,
+    "number": 10,
+    "imagePath": "assets/images/cards/10-WheelOfFortune.png",
+    "keywords": [
+      "命运",
+      "转折",
+      "周期",
+      "变化"
+    ],
+    "uprightMeaning": "生命的周期正在转动，新的机遇即将到来，顺势而为。",
+    "reversedMeaning": "暗示运势受阻、抗拒变化或重复的负面循环。"
+  },
+  {
+    "id": "major_11",
+    "nameEn": "Justice",
+    "nameZh": "正义",
+    "arcana": "major",
+    "suit": null,
+    "number": 11,
+    "imagePath": "assets/images/cards/11-Justice.png",
+    "keywords": [
+      "公平",
+      "真相",
+      "因果",
+      "平衡"
+    ],
+    "uprightMeaning": "提醒你诚实面对事实，做出的选择终将带来相应的后果。",
+    "reversedMeaning": "可能象征不公、逃避责任或判断失衡。"
+  },
+  {
+    "id": "major_12",
+    "nameEn": "The Hanged Man",
+    "nameZh": "倒吊人",
+    "arcana": "major",
+    "suit": null,
+    "number": 12,
+    "imagePath": "assets/images/cards/12-TheHangedMan.png",
+    "keywords": [
+      "暂停",
+      "牺牲",
+      "换位思考",
+      "顿悟"
+    ],
+    "uprightMeaning": "换一个角度看待问题，主动的等待与放手会带来新的领悟。",
+    "reversedMeaning": "暗示无谓的牺牲、停滞不前或抗拒必要的改变。"
+  },
+  {
+    "id": "major_13",
+    "nameEn": "Death",
+    "nameZh": "死神",
+    "arcana": "major",
+    "suit": null,
+    "number": 13,
+    "imagePath": "assets/images/cards/13-Death.png",
+    "keywords": [
+      "结束",
+      "转变",
+      "重生",
+      "释放"
+    ],
+    "uprightMeaning": "象征一个阶段的结束与新生的开始，放下才能迎来蜕变。",
+    "reversedMeaning": "可能代表抗拒改变、停滞或害怕彻底放下过去。"
+  },
+  {
+    "id": "major_14",
+    "nameEn": "Temperance",
+    "nameZh": "节制",
+    "arcana": "major",
+    "suit": null,
+    "number": 14,
+    "imagePath": "assets/images/cards/14-Temperance.png",
+    "keywords": [
+      "平衡",
+      "耐心",
+      "调和",
+      "中庸"
+    ],
+    "uprightMeaning": "提醒你以耐心与智慧调和对立面，循序渐进方能长久。",
+    "reversedMeaning": "暗示失衡、过度或缺乏耐心导致的冲突。"
+  },
+  {
+    "id": "major_15",
+    "nameEn": "The Devil",
+    "nameZh": "恶魔",
+    "arcana": "major",
+    "suit": null,
+    "number": 15,
+    "imagePath": "assets/images/cards/15-TheDevil.png",
+    "keywords": [
+      "束缚",
+      "欲望",
+      "阴影",
+      "依赖"
+    ],
+    "uprightMeaning": "揭示被物质欲望、恐惧或不健康关系所束缚的一面。",
+    "reversedMeaning": "象征挣脱束缚、觉察阴影面并重获自由的契机。"
+  },
+  {
+    "id": "major_16",
+    "nameEn": "The Tower",
+    "nameZh": "塔",
+    "arcana": "major",
+    "suit": null,
+    "number": 16,
+    "imagePath": "assets/images/cards/16-TheTower.png",
+    "keywords": [
+      "剧变",
+      "顿悟",
+      "崩塌",
+      "解放"
+    ],
+    "uprightMeaning": "突如其来的变故打破旧有结构，虽然震荡却带来必要的觉醒。",
+    "reversedMeaning": "可能代表逃避即将到来的危机，或变化以更缓慢隐晦的方式发生。"
+  },
+  {
+    "id": "major_17",
+    "nameEn": "The Star",
+    "nameZh": "星星",
+    "arcana": "major",
+    "suit": null,
+    "number": 17,
+    "imagePath": "assets/images/cards/17-TheStar.png",
+    "keywords": [
+      "希望",
+      "疗愈",
+      "信念",
+      "灵感"
+    ],
+    "uprightMeaning": "风暴过后带来希望与疗愈，对未来重新燃起信心。",
+    "reversedMeaning": "暗示失望、信心动摇或与自身目标失去连接。"
+  },
+  {
+    "id": "major_18",
+    "nameEn": "The Moon",
+    "nameZh": "月亮",
+    "arcana": "major",
+    "suit": null,
+    "number": 18,
+    "imagePath": "assets/images/cards/18-TheMoon.png",
+    "keywords": [
+      "幻觉",
+      "恐惧",
+      "潜意识",
+      "不确定"
+    ],
+    "uprightMeaning": "提醒你留意表象之下的迷雾与恐惧，潜意识正在传递讯息。",
+    "reversedMeaning": "可能代表困惑逐渐消散、真相开始浮现，或持续被幻觉困扰。"
+  },
+  {
+    "id": "major_19",
+    "nameEn": "The Sun",
+    "nameZh": "太阳",
+    "arcana": "major",
+    "suit": null,
+    "number": 19,
+    "imagePath": "assets/images/cards/19-TheSun.png",
+    "keywords": [
+      "喜悦",
+      "成功",
+      "活力",
+      "真实"
+    ],
+    "uprightMeaning": "象征喜悦、成功与清晰的自我表达，正是充满能量的时刻。",
+    "reversedMeaning": "暗示暂时的低落、过度乐观或成就感被掩盖。"
+  },
+  {
+    "id": "major_20",
+    "nameEn": "Judgement",
+    "nameZh": "审判",
+    "arcana": "major",
+    "suit": null,
+    "number": 20,
+    "imagePath": "assets/images/cards/20-Judgement.png",
+    "keywords": [
+      "觉醒",
+      "重生",
+      "反思",
+      "召唤"
+    ],
+    "uprightMeaning": "是自我评估与觉醒的时刻，过去的经历召唤你迈向新阶段。",
+    "reversedMeaning": "可能代表自我批判过重、逃避反思或错失重要的领悟。"
+  },
+  {
+    "id": "major_21",
+    "nameEn": "The World",
+    "nameZh": "世界",
+    "arcana": "major",
+    "suit": null,
+    "number": 21,
+    "imagePath": "assets/images/cards/21-TheWorld.png",
+    "keywords": [
+      "完成",
+      "圆满",
+      "整合",
+      "成就"
+    ],
+    "uprightMeaning": "象征一个循环的圆满完成，收获成果并准备迎接新旅程。",
+    "reversedMeaning": "暗示尚未完成、缺乏收尾或渴望却止步不前。"
+  },
+  {
+    "id": "wands_01",
+    "nameEn": "Ace of Wands",
+    "nameZh": "权杖A",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 1,
+    "imagePath": "assets/images/cards/Wands01.png",
+    "keywords": [
+      "灵感",
+      "新机遇",
+      "创造力",
+      "潜能"
+    ],
+    "uprightMeaning": "全新的灵感与机会涌现，充满创造力与行动的潜能。",
+    "reversedMeaning": "灵感受阻、缺乏动力或计划一再延迟。"
+  },
+  {
+    "id": "wands_02",
+    "nameEn": "Two of Wands",
+    "nameZh": "权杖二",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 2,
+    "imagePath": "assets/images/cards/Wands02.png",
+    "keywords": [
+      "规划",
+      "远见",
+      "抉择",
+      "拓展"
+    ],
+    "uprightMeaning": "站在十字路口规划未来，准备将想法付诸更大的行动。",
+    "reversedMeaning": "犹豫不决、缺乏长远规划或对未知的恐惧。"
+  },
+  {
+    "id": "wands_03",
+    "nameEn": "Three of Wands",
+    "nameZh": "权杖三",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 3,
+    "imagePath": "assets/images/cards/Wands03.png",
+    "keywords": [
+      "扩展",
+      "远航",
+      "合作",
+      "展望"
+    ],
+    "uprightMeaning": "前期努力开始显现成果，是时候将视野拓展到更远的地方。",
+    "reversedMeaning": "延误、缺乏合作或过于乐观的预期落空。"
+  },
+  {
+    "id": "wands_04",
+    "nameEn": "Four of Wands",
+    "nameZh": "权杖四",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 4,
+    "imagePath": "assets/images/cards/Wands04.png",
+    "keywords": [
+      "庆祝",
+      "和谐",
+      "归属",
+      "里程碑"
+    ],
+    "uprightMeaning": "象征阶段性的成功与庆祝，家庭或团体带来归属感。",
+    "reversedMeaning": "暗示不稳定的基础、延迟的庆祝或缺乏和谐。"
+  },
+  {
+    "id": "wands_05",
+    "nameEn": "Five of Wands",
+    "nameZh": "权杖五",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 5,
+    "imagePath": "assets/images/cards/Wands05.png",
+    "keywords": [
+      "竞争",
+      "冲突",
+      "分歧",
+      "较量"
+    ],
+    "uprightMeaning": "面临竞争与意见分歧，需要在冲突中寻找建设性的方式。",
+    "reversedMeaning": "逃避冲突、内部纷争加剧或竞争趋于恶性。"
+  },
+  {
+    "id": "wands_06",
+    "nameEn": "Six of Wands",
+    "nameZh": "权杖六",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 6,
+    "imagePath": "assets/images/cards/Wands06.png",
+    "keywords": [
+      "胜利",
+      "认可",
+      "自信",
+      "成就"
+    ],
+    "uprightMeaning": "努力获得认可，凯旋而归，自信心大增。",
+    "reversedMeaning": "暗示成果被忽视、自负或暂时的挫败感。"
+  },
+  {
+    "id": "wands_07",
+    "nameEn": "Seven of Wands",
+    "nameZh": "权杖七",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 7,
+    "imagePath": "assets/images/cards/Wands07.png",
+    "keywords": [
+      "坚持",
+      "防御",
+      "挑战",
+      "立场"
+    ],
+    "uprightMeaning": "面对挑战需坚定立场，凭借毅力守住已有的成果。",
+    "reversedMeaning": "感到不堪重负、放弃立场或被质疑击垮信心。"
+  },
+  {
+    "id": "wands_08",
+    "nameEn": "Eight of Wands",
+    "nameZh": "权杖八",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 8,
+    "imagePath": "assets/images/cards/Wands08.png",
+    "keywords": [
+      "迅速",
+      "行动",
+      "进展",
+      "消息"
+    ],
+    "uprightMeaning": "事情快速推进，消息或行动接踵而至，把握节奏顺势而为。",
+    "reversedMeaning": "延迟、混乱或沟通受阻导致进展停滞。"
+  },
+  {
+    "id": "wands_09",
+    "nameEn": "Nine of Wands",
+    "nameZh": "权杖九",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 9,
+    "imagePath": "assets/images/cards/Wands09.png",
+    "keywords": [
+      "坚韧",
+      "警惕",
+      "最后一搏",
+      "防备"
+    ],
+    "uprightMeaning": "历经磨练仍保持警惕与韧性，胜利在即但仍需坚持。",
+    "reversedMeaning": "身心俱疲、过度防备或即将放弃。"
+  },
+  {
+    "id": "wands_10",
+    "nameEn": "Ten of Wands",
+    "nameZh": "权杖十",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 10,
+    "imagePath": "assets/images/cards/Wands10.png",
+    "keywords": [
+      "负担",
+      "压力",
+      "责任",
+      "超支"
+    ],
+    "uprightMeaning": "承担过多责任与压力，需要学会适当放下或分担。",
+    "reversedMeaning": "因不堪重负而崩溃，或终于学会释放部分负担。"
+  },
+  {
+    "id": "wands_11",
+    "nameEn": "Page of Wands",
+    "nameZh": "权杖侍从",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 11,
+    "imagePath": "assets/images/cards/Wands11.png",
+    "keywords": [
+      "探索",
+      "热忱",
+      "消息",
+      "初学"
+    ],
+    "uprightMeaning": "满怀热忱探索新事物，带来令人振奋的消息或灵感。",
+    "reversedMeaning": "缺乏方向、三分钟热度或计划不成熟。"
+  },
+  {
+    "id": "wands_12",
+    "nameEn": "Knight of Wands",
+    "nameZh": "权杖骑士",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 12,
+    "imagePath": "assets/images/cards/Wands12.png",
+    "keywords": [
+      "冲劲",
+      "冒险",
+      "自信",
+      "冲动"
+    ],
+    "uprightMeaning": "充满行动力与冒险精神，勇敢追逐目标。",
+    "reversedMeaning": "冲动鲁莽、缺乏耐心或半途而废。"
+  },
+  {
+    "id": "wands_13",
+    "nameEn": "Queen of Wands",
+    "nameZh": "权杖皇后",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 13,
+    "imagePath": "assets/images/cards/Wands13.png",
+    "keywords": [
+      "自信",
+      "魅力",
+      "独立",
+      "热情"
+    ],
+    "uprightMeaning": "自信独立且富有感染力，以热情与决断力影响他人。",
+    "reversedMeaning": "暗示嫉妒、缺乏安全感或过度强势。"
+  },
+  {
+    "id": "wands_14",
+    "nameEn": "King of Wands",
+    "nameZh": "权杖国王",
+    "arcana": "minor",
+    "suit": "wands",
+    "number": 14,
+    "imagePath": "assets/images/cards/Wands14.png",
+    "keywords": [
+      "领导力",
+      "远见",
+      "魄力",
+      "创业精神"
+    ],
+    "uprightMeaning": "具备远见与领导魄力，能够激励他人共同实现愿景。",
+    "reversedMeaning": "专断、冲动决策或滥用权力。"
+  },
+  {
+    "id": "cups_01",
+    "nameEn": "Ace of Cups",
+    "nameZh": "圣杯A",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 1,
+    "imagePath": "assets/images/cards/Cups01.png",
+    "keywords": [
+      "新的情感",
+      "爱",
+      "直觉",
+      "滋养"
+    ],
+    "uprightMeaning": "象征新恋情、深刻的情感连接或直觉与灵性的觉醒。",
+    "reversedMeaning": "情感受阻、压抑感受或错失表达爱意的机会。"
+  },
+  {
+    "id": "cups_02",
+    "nameEn": "Two of Cups",
+    "nameZh": "圣杯二",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 2,
+    "imagePath": "assets/images/cards/Cups02.png",
+    "keywords": [
+      "连接",
+      "伙伴关系",
+      "吸引",
+      "和谐"
+    ],
+    "uprightMeaning": "代表彼此吸引与深刻连接，是建立伙伴关系的良好时机。",
+    "reversedMeaning": "关系失衡、沟通不良或彼此渐行渐远。"
+  },
+  {
+    "id": "cups_03",
+    "nameEn": "Three of Cups",
+    "nameZh": "圣杯三",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 3,
+    "imagePath": "assets/images/cards/Cups03.png",
+    "keywords": [
+      "庆祝",
+      "友谊",
+      "社群",
+      "喜悦"
+    ],
+    "uprightMeaning": "与朋友或群体共同庆祝，分享喜悦与支持。",
+    "reversedMeaning": "暗示八卦、群体中的摩擦或过度放纵。"
+  },
+  {
+    "id": "cups_04",
+    "nameEn": "Four of Cups",
+    "nameZh": "圣杯四",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 4,
+    "imagePath": "assets/images/cards/Cups04.png",
+    "keywords": [
+      "冷漠",
+      "沉思",
+      "不满",
+      "错失"
+    ],
+    "uprightMeaning": "对现状感到麻木或不满，可能忽略了眼前的机会。",
+    "reversedMeaning": "开始重新燃起兴趣，或终于意识到被忽视的机会。"
+  },
+  {
+    "id": "cups_05",
+    "nameEn": "Five of Cups",
+    "nameZh": "圣杯五",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 5,
+    "imagePath": "assets/images/cards/Cups05.png",
+    "keywords": [
+      "失落",
+      "悲伤",
+      "遗憾",
+      "疗愈"
+    ],
+    "uprightMeaning": "沉浸在失落与遗憾中，但仍有希望等待被看见。",
+    "reversedMeaning": "开始释怀、接受过去并重新前行。"
+  },
+  {
+    "id": "cups_06",
+    "nameEn": "Six of Cups",
+    "nameZh": "圣杯六",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 6,
+    "imagePath": "assets/images/cards/Cups06.png",
+    "keywords": [
+      "怀旧",
+      "童年",
+      "纯真",
+      "重逢"
+    ],
+    "uprightMeaning": "怀念过去的美好，或与旧日情谊重逢带来温暖。",
+    "reversedMeaning": "过度沉溺过去、拒绝成长或不切实际的怀旧。"
+  },
+  {
+    "id": "cups_07",
+    "nameEn": "Seven of Cups",
+    "nameZh": "圣杯七",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 7,
+    "imagePath": "assets/images/cards/Cups07.png",
+    "keywords": [
+      "幻想",
+      "选择",
+      "诱惑",
+      "不切实际"
+    ],
+    "uprightMeaning": "面对众多诱人的选项，需理清幻想与现实。",
+    "reversedMeaning": "终于看清真相、做出务实的决定。"
+  },
+  {
+    "id": "cups_08",
+    "nameEn": "Eight of Cups",
+    "nameZh": "圣杯八",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 8,
+    "imagePath": "assets/images/cards/Cups08.png",
+    "keywords": [
+      "放手",
+      "寻找",
+      "失望",
+      "离开"
+    ],
+    "uprightMeaning": "为追寻更深层的意义而选择离开当下看似圆满的处境。",
+    "reversedMeaning": "害怕离开、原地踏步或勉强维持现状。"
+  },
+  {
+    "id": "cups_09",
+    "nameEn": "Nine of Cups",
+    "nameZh": "圣杯九",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 9,
+    "imagePath": "assets/images/cards/Cups09.png",
+    "keywords": [
+      "满足",
+      "愿望成真",
+      "享受",
+      "知足"
+    ],
+    "uprightMeaning": "象征愿望实现与情感上的满足，尽情享受当下的美好。",
+    "reversedMeaning": "表面满足实则空虚，或过度享乐带来的代价。"
+  },
+  {
+    "id": "cups_10",
+    "nameEn": "Ten of Cups",
+    "nameZh": "圣杯十",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 10,
+    "imagePath": "assets/images/cards/Cups10.png",
+    "keywords": [
+      "圆满",
+      "家庭",
+      "幸福",
+      "和谐"
+    ],
+    "uprightMeaning": "代表情感与家庭生活的圆满和谐，是长久幸福的象征。",
+    "reversedMeaning": "暗示家庭失和、价值观分歧或理想化的幻灭。"
+  },
+  {
+    "id": "cups_11",
+    "nameEn": "Page of Cups",
+    "nameZh": "圣杯侍从",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 11,
+    "imagePath": "assets/images/cards/Cups11.png",
+    "keywords": [
+      "直觉",
+      "创意讯息",
+      "敏感",
+      "新的情感"
+    ],
+    "uprightMeaning": "带来充满创意与情感的讯息，保持开放而敏感的心。",
+    "reversedMeaning": "情绪不成熟、逃避现实或创意受阻。"
+  },
+  {
+    "id": "cups_12",
+    "nameEn": "Knight of Cups",
+    "nameZh": "圣杯骑士",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 12,
+    "imagePath": "assets/images/cards/Cups12.png",
+    "keywords": [
+      "浪漫",
+      "理想主义",
+      "追求",
+      "魅力"
+    ],
+    "uprightMeaning": "以浪漫与理想主义的姿态追求情感或梦想。",
+    "reversedMeaning": "不切实际、情绪化或言而无信。"
+  },
+  {
+    "id": "cups_13",
+    "nameEn": "Queen of Cups",
+    "nameZh": "圣杯皇后",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 13,
+    "imagePath": "assets/images/cards/Cups13.png",
+    "keywords": [
+      "同理心",
+      "直觉",
+      "温柔",
+      "情感智慧"
+    ],
+    "uprightMeaning": "拥有深厚的同理心与情感智慧，是他人情感的港湾。",
+    "reversedMeaning": "情绪过度敏感、缺乏边界或自我牺牲过度。"
+  },
+  {
+    "id": "cups_14",
+    "nameEn": "King of Cups",
+    "nameZh": "圣杯国王",
+    "arcana": "minor",
+    "suit": "cups",
+    "number": 14,
+    "imagePath": "assets/images/cards/Cups14.png",
+    "keywords": [
+      "情感成熟",
+      "平衡",
+      "智慧",
+      "包容"
+    ],
+    "uprightMeaning": "以成熟与平衡的方式驾驭情感，给予他人稳定的支持。",
+    "reversedMeaning": "情绪压抑、操控他人或喜怒无常。"
+  },
+  {
+    "id": "swords_01",
+    "nameEn": "Ace of Swords",
+    "nameZh": "宝剑A",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 1,
+    "imagePath": "assets/images/cards/Swords01.png",
+    "keywords": [
+      "突破",
+      "真相",
+      "清晰",
+      "新思维"
+    ],
+    "uprightMeaning": "象征思路的突破与真相的显现，带来清晰的洞见。",
+    "reversedMeaning": "思维混乱、误解或滥用真相。"
+  },
+  {
+    "id": "swords_02",
+    "nameEn": "Two of Swords",
+    "nameZh": "宝剑二",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 2,
+    "imagePath": "assets/images/cards/Swords02.png",
+    "keywords": [
+      "僵局",
+      "抉择",
+      "逃避",
+      "平衡"
+    ],
+    "uprightMeaning": "面对艰难抉择而陷入僵局，需要正视问题而非逃避。",
+    "reversedMeaning": "优柔寡断加剧，或终于打破僵局做出决定。"
+  },
+  {
+    "id": "swords_03",
+    "nameEn": "Three of Swords",
+    "nameZh": "宝剑三",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 3,
+    "imagePath": "assets/images/cards/Swords03.png",
+    "keywords": [
+      "心痛",
+      "伤感",
+      "背叛",
+      "释放"
+    ],
+    "uprightMeaning": "经历情感上的伤痛与失落，但也是疗愈的开始。",
+    "reversedMeaning": "旧伤复发，或正在学习原谅与放下。"
+  },
+  {
+    "id": "swords_04",
+    "nameEn": "Four of Swords",
+    "nameZh": "宝剑四",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 4,
+    "imagePath": "assets/images/cards/Swords04.png",
+    "keywords": [
+      "休息",
+      "恢复",
+      "沉淀",
+      "暂停"
+    ],
+    "uprightMeaning": "是时候暂停脚步、休养生息，为下一步积蓄能量。",
+    "reversedMeaning": "被迫的停滞、拖延恢复，或休息不足导致疲惫。"
+  },
+  {
+    "id": "swords_05",
+    "nameEn": "Five of Swords",
+    "nameZh": "宝剑五",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 5,
+    "imagePath": "assets/images/cards/Swords05.png",
+    "keywords": [
+      "冲突",
+      "争执",
+      "得不偿失",
+      "自我为中心"
+    ],
+    "uprightMeaning": "争执中即使获胜也可能付出关系的代价，需权衡得失。",
+    "reversedMeaning": "寻求和解，或持续的敌意带来更深裂痕。"
+  },
+  {
+    "id": "swords_06",
+    "nameEn": "Six of Swords",
+    "nameZh": "宝剑六",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 6,
+    "imagePath": "assets/images/cards/Swords06.png",
+    "keywords": [
+      "过渡",
+      "离开",
+      "疗愈",
+      "前行"
+    ],
+    "uprightMeaning": "带着过去的经验离开困境，驶向更平静的未来。",
+    "reversedMeaning": "难以放下过去，或过渡过程受阻。"
+  },
+  {
+    "id": "swords_07",
+    "nameEn": "Seven of Swords",
+    "nameZh": "宝剑七",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 7,
+    "imagePath": "assets/images/cards/Swords07.png",
+    "keywords": [
+      "策略",
+      "欺瞒",
+      "独行",
+      "谨慎"
+    ],
+    "uprightMeaning": "需要以策略而非蛮力应对处境，但需留意诚信问题。",
+    "reversedMeaning": "欺骗被揭穿，或终于坦诚面对自己的行为。"
+  },
+  {
+    "id": "swords_08",
+    "nameEn": "Eight of Swords",
+    "nameZh": "宝剑八",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 8,
+    "imagePath": "assets/images/cards/Swords08.png",
+    "keywords": [
+      "受限",
+      "无力感",
+      "自我设限",
+      "困境"
+    ],
+    "uprightMeaning": "感觉被困于处境之中，但限制往往来自内心的信念。",
+    "reversedMeaning": "开始挣脱束缚，重新找回自主与力量。"
+  },
+  {
+    "id": "swords_09",
+    "nameEn": "Nine of Swords",
+    "nameZh": "宝剑九",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 9,
+    "imagePath": "assets/images/cards/Swords09.png",
+    "keywords": [
+      "焦虑",
+      "噩梦",
+      "忧虑",
+      "内耗"
+    ],
+    "uprightMeaning": "深陷焦虑与担忧之中，多数恐惧其实源于内心而非现实。",
+    "reversedMeaning": "焦虑逐渐缓解，或长期压抑的情绪终于爆发。"
+  },
+  {
+    "id": "swords_10",
+    "nameEn": "Ten of Swords",
+    "nameZh": "宝剑十",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 10,
+    "imagePath": "assets/images/cards/Swords10.png",
+    "keywords": [
+      "结束",
+      "谷底",
+      "背叛",
+      "重生前夕"
+    ],
+    "uprightMeaning": "象征痛苦阶段的谷底与彻底的结束，但也意味着重生将至。",
+    "reversedMeaning": "拒绝接受结束，或痛苦正在逐渐消退。"
+  },
+  {
+    "id": "swords_11",
+    "nameEn": "Page of Swords",
+    "nameZh": "宝剑侍从",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 11,
+    "imagePath": "assets/images/cards/Swords11.png",
+    "keywords": [
+      "好奇",
+      "警觉",
+      "直言",
+      "新观点"
+    ],
+    "uprightMeaning": "充满好奇心与警觉性，渴望学习新知或直言不讳。",
+    "reversedMeaning": "言语失当、八卦是非或缺乏周全考虑。"
+  },
+  {
+    "id": "swords_12",
+    "nameEn": "Knight of Swords",
+    "nameZh": "宝剑骑士",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 12,
+    "imagePath": "assets/images/cards/Swords12.png",
+    "keywords": [
+      "果断",
+      "冲锋",
+      "直接",
+      "雄心"
+    ],
+    "uprightMeaning": "以果断与速度冲向目标，言行直接而有冲劲。",
+    "reversedMeaning": "鲁莽冲动、咄咄逼人或缺乏耐心。"
+  },
+  {
+    "id": "swords_13",
+    "nameEn": "Queen of Swords",
+    "nameZh": "宝剑皇后",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 13,
+    "imagePath": "assets/images/cards/Swords13.png",
+    "keywords": [
+      "独立",
+      "理性",
+      "清晰",
+      "直言不讳"
+    ],
+    "uprightMeaning": "以理性与清晰的思维看待事物，直言不讳且独立自主。",
+    "reversedMeaning": "言辞尖锐刻薄，或以冷漠掩饰受伤的心。"
+  },
+  {
+    "id": "swords_14",
+    "nameEn": "King of Swords",
+    "nameZh": "宝剑国王",
+    "arcana": "minor",
+    "suit": "swords",
+    "number": 14,
+    "imagePath": "assets/images/cards/Swords14.png",
+    "keywords": [
+      "权威",
+      "理性",
+      "原则",
+      "公正"
+    ],
+    "uprightMeaning": "以理性与原则为准绳，做出公正而权威的判断。",
+    "reversedMeaning": "滥用权力、冷酷无情或固执己见。"
+  },
+  {
+    "id": "pentacles_01",
+    "nameEn": "Ace of Pentacles",
+    "nameZh": "星币A",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 1,
+    "imagePath": "assets/images/cards/Pentacles01.png",
+    "keywords": [
+      "新机会",
+      "物质起点",
+      "丰盛",
+      "踏实"
+    ],
+    "uprightMeaning": "象征物质或事业上全新的机会，踏实的起点带来丰盛的可能。",
+    "reversedMeaning": "错失机会、计划不周或财务上的不安。"
+  },
+  {
+    "id": "pentacles_02",
+    "nameEn": "Two of Pentacles",
+    "nameZh": "星币二",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 2,
+    "imagePath": "assets/images/cards/Pentacles02.png",
+    "keywords": [
+      "平衡",
+      "权衡",
+      "变化",
+      "灵活"
+    ],
+    "uprightMeaning": "在多重责任间灵活权衡，适应变化保持平衡。",
+    "reversedMeaning": "顾此失彼、失衡的生活或财务管理混乱。"
+  },
+  {
+    "id": "pentacles_03",
+    "nameEn": "Three of Pentacles",
+    "nameZh": "星币三",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 3,
+    "imagePath": "assets/images/cards/Pentacles03.png",
+    "keywords": [
+      "合作",
+      "技艺",
+      "团队",
+      "建造"
+    ],
+    "uprightMeaning": "通过团队合作与专业技艺共同建造扎实的成果。",
+    "reversedMeaning": "缺乏协作、团队摩擦或成果不被认可。"
+  },
+  {
+    "id": "pentacles_04",
+    "nameEn": "Four of Pentacles",
+    "nameZh": "星币四",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 4,
+    "imagePath": "assets/images/cards/Pentacles04.png",
+    "keywords": [
+      "掌控",
+      "保守",
+      "安全感",
+      "执着"
+    ],
+    "uprightMeaning": "追求安全感而紧抓资源不放，需留意过度保守。",
+    "reversedMeaning": "过度控制欲、吝啬，或终于学会放手与分享。"
+  },
+  {
+    "id": "pentacles_05",
+    "nameEn": "Five of Pentacles",
+    "nameZh": "星币五",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 5,
+    "imagePath": "assets/images/cards/Pentacles05.png",
+    "keywords": [
+      "匮乏",
+      "困境",
+      "孤立",
+      "焦虑"
+    ],
+    "uprightMeaning": "经历物质或情感上的匮乏，感到被孤立于外。",
+    "reversedMeaning": "困境开始好转，或终于愿意寻求他人的帮助。"
+  },
+  {
+    "id": "pentacles_06",
+    "nameEn": "Six of Pentacles",
+    "nameZh": "星币六",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 6,
+    "imagePath": "assets/images/cards/Pentacles06.png",
+    "keywords": [
+      "慷慨",
+      "分享",
+      "施与受",
+      "公平"
+    ],
+    "uprightMeaning": "象征资源的公平分配，慷慨给予或获得他人援助。",
+    "reversedMeaning": "施与受失衡，或暗藏条件的付出。"
+  },
+  {
+    "id": "pentacles_07",
+    "nameEn": "Seven of Pentacles",
+    "nameZh": "星币七",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 7,
+    "imagePath": "assets/images/cards/Pentacles07.png",
+    "keywords": [
+      "耐心",
+      "评估",
+      "长期投资",
+      "停顿"
+    ],
+    "uprightMeaning": "停下来评估已投入的努力，耐心等待成果的到来。",
+    "reversedMeaning": "缺乏耐心、投入错误方向或收获不如预期。"
+  },
+  {
+    "id": "pentacles_08",
+    "nameEn": "Eight of Pentacles",
+    "nameZh": "星币八",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 8,
+    "imagePath": "assets/images/cards/Pentacles08.png",
+    "keywords": [
+      "精进",
+      "专注",
+      "匠心",
+      "勤奋"
+    ],
+    "uprightMeaning": "专注打磨技艺，凭借勤奋与匠心逐步精进。",
+    "reversedMeaning": "敷衍了事、缺乏动力或技艺停滞不前。"
+  },
+  {
+    "id": "pentacles_09",
+    "nameEn": "Nine of Pentacles",
+    "nameZh": "星币九",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 9,
+    "imagePath": "assets/images/cards/Pentacles09.png",
+    "keywords": [
+      "独立",
+      "富足",
+      "自律",
+      "享受成果"
+    ],
+    "uprightMeaning": "凭借自律与努力获得独立与富足，尽情享受劳动成果。",
+    "reversedMeaning": "过度依赖他人，或表面富足实则空虚。"
+  },
+  {
+    "id": "pentacles_10",
+    "nameEn": "Ten of Pentacles",
+    "nameZh": "星币十",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 10,
+    "imagePath": "assets/images/cards/Pentacles10.png",
+    "keywords": [
+      "传承",
+      "富足",
+      "家族",
+      "长久稳定"
+    ],
+    "uprightMeaning": "象征家族与世代传承的富足，长久稳定的物质基础。",
+    "reversedMeaning": "家族纷争、财务隐患或价值观的冲突。"
+  },
+  {
+    "id": "pentacles_11",
+    "nameEn": "Page of Pentacles",
+    "nameZh": "星币侍从",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 11,
+    "imagePath": "assets/images/cards/Pentacles11.png",
+    "keywords": [
+      "学习",
+      "务实",
+      "新机会",
+      "脚踏实地"
+    ],
+    "uprightMeaning": "以务实的态度学习新技能，把握脚踏实地的新机会。",
+    "reversedMeaning": "三心二意、缺乏计划或错失实际的机会。"
+  },
+  {
+    "id": "pentacles_12",
+    "nameEn": "Knight of Pentacles",
+    "nameZh": "星币骑士",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 12,
+    "imagePath": "assets/images/cards/Pentacles12.png",
+    "keywords": [
+      "勤奋",
+      "可靠",
+      "稳健",
+      "坚持"
+    ],
+    "uprightMeaning": "以稳健与坚持的态度一步步朝目标扎实前进。",
+    "reversedMeaning": "固执僵化、停滞不前或过度谨慎。"
+  },
+  {
+    "id": "pentacles_13",
+    "nameEn": "Queen of Pentacles",
+    "nameZh": "星币皇后",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 13,
+    "imagePath": "assets/images/cards/Pentacles13.png",
+    "keywords": [
+      "务实",
+      "滋养",
+      "丰盛",
+      "居家"
+    ],
+    "uprightMeaning": "以务实与关怀兼顾物质与情感的丰盛生活。",
+    "reversedMeaning": "过度操劳、忽视自我或财务上的不安全感。"
+  },
+  {
+    "id": "pentacles_14",
+    "nameEn": "King of Pentacles",
+    "nameZh": "星币国王",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "number": 14,
+    "imagePath": "assets/images/cards/Pentacles14.png",
+    "keywords": [
+      "富足",
+      "稳重",
+      "成功",
+      "慷慨"
+    ],
+    "uprightMeaning": "象征物质上的成功与稳重，以丰盛之姿慷慨待人。",
+    "reversedMeaning": "过度重视物质、固执保守或滥用财富权力。"
+  }
+]

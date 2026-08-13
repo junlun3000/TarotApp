@@ -1,0 +1,6 @@
+name = "tarot-ai-reading"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# 部署后用这条命令设置密钥（会提示你粘贴 key，不会存进这个文件）：
+#   npx wrangler secret put ANTHROPIC_API_KEY
