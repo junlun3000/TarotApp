@@ -329,16 +329,21 @@ class _CardWheelState extends State<_CardWheel>
     final dx = _radius * math.sin(angle);
     final dy = _radius * (1 - math.cos(angle));
     final t = angle.abs() / cutoff;
-    final scale = 1.0 - 0.35 * t;
-    final fade = 1.0 - 0.45 * t;
+    final scale = 1.0 - 0.2 * t;
+    final fade = 1.0 - 0.35 * t;
+    // 越靠边的牌，转开的一面被"背光"，叠一层半透明黑压暗它，配合下面
+    // 的 rotateY 才会看起来像真的转过去了，而不是单纯变窄变淡。
+    final shade = 0.5 * t;
     final picked = widget.pickedIndices.contains(index);
 
     return Positioned(
       left: centerX + dx - _CardWheel._cardWidth / 2,
       top: dy,
-      child: Transform.rotate(
-        angle: angle * 0.6,
+      child: Transform(
         alignment: Alignment.topCenter,
+        transform: Matrix4.identity()
+          ..setEntry(3, 2, 0.0022)
+          ..rotateY(angle * 0.85),
         child: Transform.scale(
           scale: scale,
           alignment: Alignment.topCenter,
@@ -347,10 +352,25 @@ class _CardWheelState extends State<_CardWheel>
             child: SizedBox(
               width: _CardWheel._cardWidth,
               height: _CardWheel._cardHeight,
-              child: _CardBackTile(
-                picked: picked,
-                disabled: widget.disabled && !picked,
-                onTap: () => widget.onTap(index),
+              child: Stack(
+                children: [
+                  _CardBackTile(
+                    picked: picked,
+                    disabled: widget.disabled && !picked,
+                    onTap: () => widget.onTap(index),
+                  ),
+                  if (shade > 0)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.black.withValues(alpha: shade),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
@@ -384,10 +404,17 @@ class _CardBackTile extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
+              // 深色投影 + 一圈细白边光，让牌看起来像悬空的实体卡片，
+              // 而不是贴在背景上的一张平面图。
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withValues(alpha: picked ? 0 : 0.25),
-                  blurRadius: 6,
+                  color: Colors.black.withValues(alpha: picked ? 0 : 0.55),
+                  blurRadius: 12,
+                  offset: const Offset(0, 7),
+                ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: picked ? 0 : 0.18),
+                  blurRadius: 3,
                 ),
               ],
             ),

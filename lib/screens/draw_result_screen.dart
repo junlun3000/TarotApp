@@ -264,7 +264,7 @@ class _ResultBodyState extends State<_ResultBody> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.only(bottom: 28),
             child: Text(
               allRevealed ? '牌已翻开' : '按顺序点开每一张牌',
               style: GoogleFonts.inter(fontSize: 13, color: Colors.white54),
@@ -274,9 +274,11 @@ class _ResultBodyState extends State<_ResultBody> {
             width: (maxCol + 1) * step - _ResultBody._cellSpacing,
             height: (maxRow + 1) * stepV - _ResultBody._cellSpacing,
             child: Stack(
+              // 提示箭头会画在牌的上方（top 是负数），关掉裁剪才不会被切掉。
+              clipBehavior: Clip.none,
               children: [
                 for (final (index, position) in layout.indexed)
-                  if (index < drawnCards.length)
+                  if (index < drawnCards.length) ...[
                     Positioned(
                       left: position.col * step,
                       top: position.row * stepV,
@@ -287,6 +289,14 @@ class _ResultBodyState extends State<_ResultBody> {
                         onReveal: () => _revealCard(index),
                       ),
                     ),
+                    if (index == _revealedCount)
+                      Positioned(
+                        left: position.col * step,
+                        top: position.row * stepV - 24,
+                        width: _ResultBody._cellWidth,
+                        child: const Center(child: _TapHint()),
+                      ),
+                  ],
               ],
             ),
           ),
@@ -360,6 +370,26 @@ class _CardThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final card = Container(
+      width: _ResultBody._cellWidth,
+      height: _ResultBody._cellHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withValues(alpha: active ? 0.7 : 0.4),
+            blurRadius: active ? 16 : 10,
+            spreadRadius: active ? 2 : 1,
+          ),
+        ],
+      ),
+      child: CardFlipReveal(
+        frontImagePath: drawn.card.imagePath,
+        isReversed: drawn.isReversed,
+        revealed: revealed,
+      ),
+    );
+
     return GestureDetector(
       onTap: revealed
           ? () {
@@ -373,24 +403,81 @@ class _CardThumbnail extends StatelessWidget {
               );
             }
           : (active ? onReveal : null),
-      child: Container(
-        width: _ResultBody._cellWidth,
-        height: _ResultBody._cellHeight,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withValues(alpha: active ? 0.7 : 0.4),
-              blurRadius: active ? 16 : 10,
-              spreadRadius: active ? 2 : 1,
-            ),
-          ],
-        ),
-        child: CardFlipReveal(
-          frontImagePath: drawn.card.imagePath,
-          isReversed: drawn.isReversed,
-          revealed: revealed,
-        ),
+      // 当前该点的那张牌轻轻呼吸缩放，加上上面那个跳动的箭头，
+      // 让用户一眼看出接下来该点哪张，而不用先读文字提示。
+      child: active && !revealed ? _Pulse(child: card) : card,
+    );
+  }
+}
+
+/// 让 [child] 在 1.0~1.06 之间持续呼吸缩放，用来吸引用户注意力。
+class _Pulse extends StatefulWidget {
+  const _Pulse({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_Pulse> createState() => _PulseState();
+}
+
+class _PulseState extends State<_Pulse> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 900),
+  )..repeat(reverse: true);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.scale(scale: 1.0 + 0.06 * _controller.value, child: child);
+      },
+      child: widget.child,
+    );
+  }
+}
+
+/// 悬在当前该点的牌上方、持续上下轻跳的小箭头，指示用户点这里。
+class _TapHint extends StatefulWidget {
+  const _TapHint();
+
+  @override
+  State<_TapHint> createState() => _TapHintState();
+}
+
+class _TapHintState extends State<_TapHint> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 700),
+  )..repeat(reverse: true);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, -4 * _controller.value),
+          child: child,
+        );
+      },
+      child: const Icon(
+        Icons.keyboard_arrow_down_rounded,
+        color: Colors.amberAccent,
+        size: 24,
       ),
     );
   }
