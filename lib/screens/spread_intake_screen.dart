@@ -8,8 +8,10 @@ import 'card_selection_screen.dart';
 
 /// 选好牌阵之后，抽牌前的最后一步——问几个针对这个牌阵的小问题
 /// （[SpreadPreset.intakeQuestions]），取代原来"设置问题"页那个通用的
-/// "想问什么"输入框。回答会拼成一段 background 文字，一路带到 AI 解读，
-/// 让解读更贴合占卜者本人的实际处境。全部可选，都不填也能继续。
+/// "想问什么"输入框。每道题都是"选一个预设选项，或者选'其他'自己填"，
+/// 必须选完才能继续——比空白输入框更容易让用户至少给出一点具体信息，
+/// 回答会拼成一段 background 文字，一路带到 AI 解读，让解读更贴合
+/// 占卜者本人的实际处境。
 ///
 /// 跟其他页面一样套固定 414x896 画布 + FittedBox 整体缩放。
 class SpreadIntakeScreen extends StatefulWidget {
@@ -31,28 +33,59 @@ class SpreadIntakeScreen extends StatefulWidget {
 enum SpreadIntakeMode { select, scan }
 
 class _SpreadIntakeScreenState extends State<SpreadIntakeScreen> {
-  late final List<TextEditingController> _controllers = [
+  late final List<TextEditingController> _otherControllers = [
     for (final _ in widget.preset.intakeQuestions) TextEditingController(),
   ];
 
+  /// 每道题选中的选项下标；等于该题 options.length 表示选中了"其他"；
+  /// null 表示还没选。
+  late final List<int?> _selectedIndex = List<int?>.filled(
+    widget.preset.intakeQuestions.length,
+    null,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    for (final controller in _otherControllers) {
+      controller.addListener(_onOtherTextChanged);
+    }
+  }
+
+  void _onOtherTextChanged() => setState(() {});
+
   @override
   void dispose() {
-    for (final controller in _controllers) {
+    for (final controller in _otherControllers) {
       controller.dispose();
     }
     super.dispose();
   }
 
-  void _continue() {
-    final answers = <String>[];
+  bool get _allAnswered {
     final questions = widget.preset.intakeQuestions;
     for (var i = 0; i < questions.length; i++) {
-      final answer = _controllers[i].text.trim();
-      if (answer.isNotEmpty) {
-        answers.add('${questions[i]}$answer');
-      }
+      final selected = _selectedIndex[i];
+      if (selected == null) return false;
+      final isOther = selected == questions[i].options.length;
+      if (isOther && _otherControllers[i].text.trim().isEmpty) return false;
     }
-    final background = answers.isEmpty ? null : answers.join('\n');
+    return true;
+  }
+
+  void _selectOption(int questionIndex, int optionIndex) {
+    setState(() => _selectedIndex[questionIndex] = optionIndex);
+  }
+
+  void _continue() {
+    if (!_allAnswered) return;
+
+    final questions = widget.preset.intakeQuestions;
+    final answers = <String>[
+      for (var i = 0; i < questions.length; i++)
+        '${questions[i].prompt}：${_answerText(i)}',
+    ];
+    final background = answers.join('\n');
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -68,6 +101,14 @@ class _SpreadIntakeScreenState extends State<SpreadIntakeScreen> {
         },
       ),
     );
+  }
+
+  String _answerText(int questionIndex) {
+    final options = widget.preset.intakeQuestions[questionIndex].options;
+    final selected = _selectedIndex[questionIndex]!;
+    return selected == options.length
+        ? _otherControllers[questionIndex].text.trim()
+        : options[selected];
   }
 
   static const double _designWidth = 414;
@@ -113,7 +154,7 @@ class _SpreadIntakeScreenState extends State<SpreadIntakeScreen> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                '都可以不填，但填一点会让解读更贴合你的处境',
+                                '选一个最贴近的选项，让解读更贴合你的处境',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.inter(
                                   fontSize: 13,
@@ -124,12 +165,18 @@ class _SpreadIntakeScreenState extends State<SpreadIntakeScreen> {
                               for (var i = 0; i < questions.length; i++) ...[
                                 _IntakeField(
                                   question: questions[i],
-                                  controller: _controllers[i],
+                                  selectedIndex: _selectedIndex[i],
+                                  otherController: _otherControllers[i],
+                                  onSelect: (optionIndex) =>
+                                      _selectOption(i, optionIndex),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 20),
                               ],
-                              const SizedBox(height: 12),
-                              _ContinueButton(onTap: _continue),
+                              const SizedBox(height: 8),
+                              _ContinueButton(
+                                enabled: _allAnswered,
+                                onTap: _continue,
+                              ),
                               const SizedBox(height: 24),
                             ],
                           ),
@@ -179,50 +226,121 @@ class _Header extends StatelessWidget {
   }
 }
 
+/// 一道小问题：预设选项用 [_OptionChip] 平铺展示，选中"其他"才展开一个
+/// 文本框；必须选中一项（选"其他"还要填字）才算这道题回答完。
 class _IntakeField extends StatelessWidget {
-  const _IntakeField({required this.question, required this.controller});
+  const _IntakeField({
+    required this.question,
+    required this.selectedIndex,
+    required this.otherController,
+    required this.onSelect,
+  });
 
-  final String question;
-  final TextEditingController controller;
+  final IntakeQuestion question;
+  final int? selectedIndex;
+  final TextEditingController otherController;
+  final ValueChanged<int> onSelect;
 
   @override
   Widget build(BuildContext context) {
+    final otherIndex = question.options.length;
+    final isOtherSelected = selectedIndex == otherIndex;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          question,
+          question.prompt,
           style: GoogleFonts.inter(fontSize: 14, color: Colors.white70),
         ),
-        const SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: TextField(
-            controller: controller,
-            maxLines: 2,
-            style: GoogleFonts.inter(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: '可以不填',
-              hintStyle: GoogleFonts.inter(color: Colors.white38),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (var i = 0; i < question.options.length; i++)
+              _OptionChip(
+                label: question.options[i],
+                selected: selectedIndex == i,
+                onTap: () => onSelect(i),
+              ),
+            _OptionChip(
+              label: '其他',
+              selected: isOtherSelected,
+              onTap: () => onSelect(otherIndex),
+            ),
+          ],
+        ),
+        if (isOtherSelected) ...[
+          const SizedBox(height: 10),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: TextField(
+              controller: otherController,
+              autofocus: true,
+              maxLines: 2,
+              style: GoogleFonts.inter(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: '说说具体是什么',
+                hintStyle: GoogleFonts.inter(color: Colors.white38),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ],
     );
   }
 }
 
-class _ContinueButton extends StatelessWidget {
-  const _ContinueButton({required this.onTap});
+class _OptionChip extends StatelessWidget {
+  const _OptionChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        decoration: BoxDecoration(
+          color: selected ? Colors.white : Colors.white.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: selected ? Colors.white : Colors.white24,
+          ),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: selected ? Colors.black : Colors.white70,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ContinueButton extends StatelessWidget {
+  const _ContinueButton({required this.enabled, required this.onTap});
+
+  final bool enabled;
   final VoidCallback onTap;
 
   @override
@@ -233,12 +351,14 @@ class _ContinueButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+          disabledBackgroundColor: Colors.white24,
+          disabledForegroundColor: Colors.white38,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(85),
           ),
         ),
-        onPressed: onTap,
+        onPressed: enabled ? onTap : null,
         child: Text('开始抽牌', style: GoogleFonts.inter(fontSize: 16)),
       ),
     );

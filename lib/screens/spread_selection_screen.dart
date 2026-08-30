@@ -89,7 +89,59 @@ class _SpreadSelectionScreenState extends State<SpreadSelectionScreen> {
                               setState(() => _searchQuery = value),
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 16),
+                      if (SpreadPreset.recommendedForNewUsers.isNotEmpty) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.auto_awesome,
+                                size: 14,
+                                color: Colors.amberAccent,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                '新手推荐',
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: 100,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            itemCount:
+                                SpreadPreset.recommendedForNewUsers.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 10),
+                            itemBuilder: (context, index) {
+                              final preset =
+                                  SpreadPreset.recommendedForNewUsers[index];
+                              return _RecommendedCard(
+                                preset: preset,
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SpreadDetailScreen(preset: preset),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                       SizedBox(
                         height: 40,
                         child: ListView.separated(
@@ -192,6 +244,58 @@ class _SearchField extends StatelessWidget {
   }
 }
 
+/// "新手推荐"横向条里的一张小卡片——比正式的牌阵卡片更紧凑，
+/// 只给名字、张数和示意图，点了直接进详情页（跟主网格里点卡片的行为
+/// 一致），方便第一次用的人不用先翻完全部 35 个牌阵再决定抽哪个。
+class _RecommendedCard extends StatelessWidget {
+  const _RecommendedCard({required this.preset, required this.onTap});
+
+  final SpreadPreset preset;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 112,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF4B5580), Color(0xFF272B47)],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white24),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 40,
+              child: Center(
+                child: SpreadPreviewIcon(layout: preset.previewLayout),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              preset.nameZh,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.inter(fontSize: 12, color: Colors.white),
+            ),
+            Text(
+              '${preset.cardCount} 张',
+              style: GoogleFonts.inter(fontSize: 10, color: Colors.white38),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SpreadCard extends StatelessWidget {
   const _SpreadCard({
     required this.preset,
@@ -232,6 +336,15 @@ class _SpreadCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (preset.recommended)
+                      const Padding(
+                        padding: EdgeInsets.only(right: 4, top: 2),
+                        child: Icon(
+                          Icons.auto_awesome,
+                          size: 12,
+                          color: Colors.amberAccent,
+                        ),
+                      ),
                     Expanded(
                       child: Text(
                         preset.nameZh,
