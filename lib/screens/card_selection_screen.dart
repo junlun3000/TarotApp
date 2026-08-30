@@ -164,7 +164,8 @@ class _CardSelectionScreenState extends State<CardSelectionScreen> {
                             }
 
                             final full = _pickedGridIndices.length >= needed;
-                            return Center(
+                            return Align(
+                              alignment: const Alignment(0, -0.35),
                               child: _CardWheel(
                                 totalCards: _totalCards,
                                 pickedIndices: _pickedGridIndices,
