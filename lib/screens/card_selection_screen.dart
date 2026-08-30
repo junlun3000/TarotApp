@@ -289,8 +289,7 @@ class _CardWheelState extends State<_CardWheel>
   @override
   Widget build(BuildContext context) {
     const cutoff = _CardWheel._maxVisibleAngle;
-    final maxDy = _radius * (1 - math.cos(cutoff));
-    final stackHeight = maxDy + _CardWheel._cardHeight;
+    const stackHeight = _CardWheel._cardHeight;
 
     final visible = <MapEntry<int, double>>[];
     for (var i = 0; i < widget.totalCards; i++) {
@@ -326,8 +325,9 @@ class _CardWheelState extends State<_CardWheel>
   }
 
   Widget _buildTile(int index, double angle, double cutoff, double centerX) {
+    // dx 用 sin 而不是线性映射，让牌越靠边越密——跟真的绕在一个圆柱面上
+    // 、只是站着不弯曲的牌一样，边上的牌会自然"挤"在一起而不是拉开。
     final dx = _radius * math.sin(angle);
-    final dy = _radius * (1 - math.cos(angle));
     final t = angle.abs() / cutoff;
     final scale = 1.0 - 0.2 * t;
     final fade = 1.0 - 0.35 * t;
@@ -338,15 +338,15 @@ class _CardWheelState extends State<_CardWheel>
 
     return Positioned(
       left: centerX + dx - _CardWheel._cardWidth / 2,
-      top: dy,
+      top: 0,
       child: Transform(
-        alignment: Alignment.topCenter,
+        alignment: Alignment.center,
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.0022)
           ..rotateY(angle * 0.85),
         child: Transform.scale(
           scale: scale,
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           child: Opacity(
             opacity: fade,
             child: SizedBox(
