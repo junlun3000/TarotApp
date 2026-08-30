@@ -53,6 +53,10 @@ class _DrawResultScreenState extends State<DrawResultScreen> {
 
   late final Future<List<DrawnCard>> _drawnCardsFuture;
 
+  /// 这次抽牌存进历史记录后的 id——传给 [AiReadingScreen]，让它在 AI
+  /// 解读生成完之后能回填到同一条记录里，而不是另开一条。
+  String? _historyId;
+
   @override
   void initState() {
     super.initState();
@@ -104,6 +108,7 @@ class _DrawResultScreenState extends State<DrawResultScreen> {
       ],
     );
     await ReadingHistoryRepository.instance.addEntry(entry);
+    if (mounted) setState(() => _historyId = entry.id);
   }
 
   @override
@@ -156,6 +161,7 @@ class _DrawResultScreenState extends State<DrawResultScreen> {
                               spreadName: widget.preset.nameZh,
                               question: widget.question,
                               background: widget.background,
+                              historyId: _historyId,
                             );
                           },
                         ),
@@ -204,13 +210,17 @@ class _Header extends StatelessWidget {
   }
 }
 
-class _ResultBody extends StatelessWidget {
+/// 抽牌结果按牌阵位置摆好后，不是一次性全部翻开，而是要求用户按顺序
+/// （从第 0 张开始）依次点开——一张一张揭晓，比自动翻开更有仪式感。
+/// [_revealedCount] 记录已经翻开的张数，只有下标等于它的那张牌当前可点。
+class _ResultBody extends StatefulWidget {
   const _ResultBody({
     required this.layout,
     required this.drawnCards,
     required this.spreadName,
     required this.question,
     required this.background,
+    required this.historyId,
   });
 
   final List<GridPosition> layout;
@@ -219,24 +229,50 @@ class _ResultBody extends StatelessWidget {
   final String? question;
   final String? background;
 
+  /// 这次抽牌在历史记录里的 id；传给 [AiReadingScreen] 让它把生成的
+  /// AI 解读回填到这条记录里。
+  final String? historyId;
+
   static const double _cellWidth = 64;
   static const double _cellHeight = 64 * 1.4;
   static const double _cellSpacing = 12;
 
   @override
+  State<_ResultBody> createState() => _ResultBodyState();
+}
+
+class _ResultBodyState extends State<_ResultBody> {
+  int _revealedCount = 0;
+
+  void _revealCard(int index) {
+    if (index != _revealedCount) return;
+    setState(() => _revealedCount++);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final layout = widget.layout;
+    final drawnCards = widget.drawnCards;
     final maxRow = layout.map((p) => p.row).reduce((a, b) => a > b ? a : b);
     final maxCol = layout.map((p) => p.col).reduce((a, b) => a > b ? a : b);
-    final step = _cellWidth + _cellSpacing;
-    final stepV = _cellHeight + _cellSpacing;
+    final step = _ResultBody._cellWidth + _ResultBody._cellSpacing;
+    final stepV = _ResultBody._cellHeight + _ResultBody._cellSpacing;
+    final allRevealed = _revealedCount >= drawnCards.length;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              allRevealed ? '牌已翻开' : '按顺序点开每一张牌',
+              style: GoogleFonts.inter(fontSize: 13, color: Colors.white54),
+            ),
+          ),
           SizedBox(
-            width: (maxCol + 1) * step - _cellSpacing,
-            height: (maxRow + 1) * stepV - _cellSpacing,
+            width: (maxCol + 1) * step - _ResultBody._cellSpacing,
+            height: (maxRow + 1) * stepV - _ResultBody._cellSpacing,
             child: Stack(
               children: [
                 for (final (index, position) in layout.indexed)
@@ -246,7 +282,9 @@ class _ResultBody extends StatelessWidget {
                       top: position.row * stepV,
                       child: _CardThumbnail(
                         drawn: drawnCards[index],
-                        revealDelay: Duration(milliseconds: 500 * index),
+                        revealed: index < _revealedCount,
+                        active: index == _revealedCount,
+                        onReveal: () => _revealCard(index),
                       ),
                     ),
               ],
@@ -257,7 +295,11 @@ class _ResultBody extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
-                for (final drawn in drawnCards) _ResultListTile(drawn: drawn),
+                for (final (index, drawn) in drawnCards.indexed)
+                  _ResultListTile(
+                    drawn: drawn,
+                    revealed: index < _revealedCount,
+                  ),
               ],
             ),
           ),
@@ -279,10 +321,11 @@ class _ResultBody extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => AiReadingScreen(
-                        spreadName: spreadName,
-                        question: question,
-                        background: background,
+                        spreadName: widget.spreadName,
+                        question: widget.question,
+                        background: widget.background,
                         drawnCards: drawnCards,
+                        historyId: widget.historyId,
                       ),
                     ),
                   );
@@ -299,24 +342,37 @@ class _ResultBody extends StatelessWidget {
 }
 
 class _CardThumbnail extends StatelessWidget {
-  const _CardThumbnail({required this.drawn, required this.revealDelay});
+  const _CardThumbnail({
+    required this.drawn,
+    required this.revealed,
+    required this.active,
+    required this.onReveal,
+  });
 
   final DrawnCard drawn;
-  final Duration revealDelay;
+
+  /// 是否已经点开翻面。
+  final bool revealed;
+
+  /// 是不是"下一张该点的牌"——只有它可以点。
+  final bool active;
+  final VoidCallback onReveal;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CardDetailScreen(
-              card: drawn.card,
-              initialOrientation: drawn.orientation,
-            ),
-          ),
-        );
-      },
+      onTap: revealed
+          ? () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CardDetailScreen(
+                    card: drawn.card,
+                    initialOrientation: drawn.orientation,
+                  ),
+                ),
+              );
+            }
+          : (active ? onReveal : null),
       child: Container(
         width: _ResultBody._cellWidth,
         height: _ResultBody._cellHeight,
@@ -324,16 +380,16 @@ class _CardThumbnail extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withValues(alpha: 0.4),
-              blurRadius: 10,
-              spreadRadius: 1,
+              color: Colors.white.withValues(alpha: active ? 0.7 : 0.4),
+              blurRadius: active ? 16 : 10,
+              spreadRadius: active ? 2 : 1,
             ),
           ],
         ),
         child: CardFlipReveal(
           frontImagePath: drawn.card.imagePath,
           isReversed: drawn.isReversed,
-          startDelay: revealDelay,
+          revealed: revealed,
         ),
       ),
     );
@@ -341,12 +397,28 @@ class _CardThumbnail extends StatelessWidget {
 }
 
 class _ResultListTile extends StatelessWidget {
-  const _ResultListTile({required this.drawn});
+  const _ResultListTile({required this.drawn, required this.revealed});
 
   final DrawnCard drawn;
+  final bool revealed;
 
   @override
   Widget build(BuildContext context) {
+    if (!revealed) {
+      return ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: const Icon(
+          Icons.lock_outline,
+          color: Colors.white38,
+          size: 20,
+        ),
+        title: Text(
+          '${drawn.positionLabel ?? ''}：待翻开',
+          style: GoogleFonts.inter(fontSize: 14, color: Colors.white38),
+        ),
+      );
+    }
+
     final orientationLabel = drawn.isReversed ? '逆位' : '正位';
     return ListTile(
       contentPadding: EdgeInsets.zero,

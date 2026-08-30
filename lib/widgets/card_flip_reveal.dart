@@ -11,12 +11,19 @@ class CardFlipReveal extends StatefulWidget {
     super.key,
     required this.frontImagePath,
     this.isReversed = false,
+    this.revealed = true,
     this.startDelay = Duration.zero,
     this.flipDuration = const Duration(milliseconds: 900),
   });
 
   final String frontImagePath;
   final bool isReversed;
+
+  /// 是否已揭晓——为 false 时保持卡背静止，直到外部把它改成 true 才会
+  /// 触发翻面动画。默认 true，保持"组件一挂载就自动翻开"的原有行为；
+  /// 用在"一张一张点开"的揭示流程时传 false，再由父组件在用户点击后
+  /// 改成 true。
+  final bool revealed;
 
   /// 翻牌开始前的等待时间，用于让多张牌错开、依次翻开。
   final Duration startDelay;
@@ -42,9 +49,19 @@ class _CardFlipRevealState extends State<CardFlipReveal>
       vsync: this,
       duration: widget.flipDuration,
     );
+    if (widget.revealed) _scheduleFlip();
+  }
+
+  void _scheduleFlip() {
     _delayTimer = Timer(widget.startDelay, () {
       if (mounted) _controller.forward();
     });
+  }
+
+  @override
+  void didUpdateWidget(CardFlipReveal oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.revealed && widget.revealed) _scheduleFlip();
   }
 
   @override

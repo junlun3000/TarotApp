@@ -33,6 +33,15 @@ class AiReading {
       advice: json['advice'] as String? ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'themeTitle': themeTitle,
+      'overview': overview,
+      'cards': cards.map((c) => c.toJson()).toList(),
+      'advice': advice,
+    };
+  }
 }
 
 class AiReadingCardSection {
@@ -57,5 +66,14 @@ class AiReadingCardSection {
       keywordCore: json['keywordCore'] as String? ?? '',
       interpretation: json['interpretation'] as String? ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'positionLabel': positionLabel,
+      'cardNameZh': cardNameZh,
+      'keywordCore': keywordCore,
+      'interpretation': interpretation,
+    };
   }
 }

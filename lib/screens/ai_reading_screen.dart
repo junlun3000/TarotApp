@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../data/ai_reading_service.dart';
+import '../data/reading_history_repository.dart';
 import '../data/share_reading.dart';
 import '../models/ai_reading.dart';
 import '../models/drawn_card.dart';
@@ -21,6 +22,7 @@ class AiReadingScreen extends StatefulWidget {
     required this.drawnCards,
     this.question,
     this.background,
+    this.historyId,
   });
 
   final String spreadName;
@@ -30,6 +32,11 @@ class AiReadingScreen extends StatefulWidget {
   /// 用户在"设置问题"页填写的背景/近况，帮 AI 判断这次问题的领域，
   /// 让解读更贴合占卜者本人的处境。
   final String? background;
+
+  /// 这次抽牌在历史记录里的 id——解读生成成功后会回填进同一条记录，
+  /// 这样用户之后翻历史记录也能看到当时的 AI 解读，不用重新生成。
+  /// 为 null 时（比如这条历史记录已经被删了）就只在本页展示，不保存。
+  final String? historyId;
 
   @override
   State<AiReadingScreen> createState() => _AiReadingScreenState();
@@ -66,8 +73,25 @@ class _AiReadingScreenState extends State<AiReadingScreen> {
     );
     future.then((reading) {
       if (mounted) setState(() => _loadedReading = reading);
+      _saveReadingToHistory(reading);
     }).catchError((Object _) {});
     return future;
+  }
+
+  /// 把生成好的解读回填进对应的历史记录，这样用户之后翻历史记录也能
+  /// 看到当时的 AI 解读，不用重新生成一遍。存失败（比如那条历史记录
+  /// 已经被删了）不影响当前页面正常展示解读结果，吞掉异常就行。
+  Future<void> _saveReadingToHistory(AiReading reading) async {
+    final historyId = widget.historyId;
+    if (historyId == null) return;
+    try {
+      final repo = ReadingHistoryRepository.instance;
+      final original = repo.getEntry(historyId);
+      if (original == null) return;
+      await repo.addEntry(original.withAiReading(reading));
+    } catch (error) {
+      debugPrint('回填 AI 解读到历史记录失败（已忽略）：$error');
+    }
   }
 
   void _retry() {

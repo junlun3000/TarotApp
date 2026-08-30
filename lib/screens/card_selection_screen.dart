@@ -1,4 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../data/draw_service.dart';
@@ -162,7 +165,7 @@ class _CardSelectionScreenState extends State<CardSelectionScreen> {
 
                             final full = _pickedGridIndices.length >= needed;
                             return Center(
-                              child: _CardFan(
+                              child: _CardWheel(
                                 totalCards: _totalCards,
                                 pickedIndices: _pickedGridIndices,
                                 disabled: full,
@@ -184,17 +187,20 @@ class _CardSelectionScreenState extends State<CardSelectionScreen> {
   }
 }
 
-/// 横向堆叠成扇形的 78 张牌背，可以左右划动浏览。
+/// 78 张牌背排成一圈（PTCG Pocket 抽卡式），拖拽转动圆环来浏览、点选。
 ///
-/// 实现技巧：[ListView] 给每张牌分配的横向"格子"（[itemExtent]）比牌
-/// 本身的宽度（[_cardWidth]）要窄，牌的实际渲染宽度用 [OverflowBox] 撑开，
-/// 这样相邻的牌就会视觉上叠在一起；后面（索引更大）的牌在 Stack 绘制顺序
-/// 上更晚，会盖在前一张上面，形成从左到右层层叠加的扇形效果。
+/// 实现技巧：把牌沿一个大圆的圆周等角摆开，圆心放在可视区域下方（屏幕外），
+/// 只露出圆周顶部一小段弧——所以看起来像"一圈牌"向两侧弯出屏幕，而不是
+/// 现在这种直线扇形。半径按 [_arcSpacing] 换算，让弧上每张牌之间的间距
+/// 跟原来的直线扇形手感一致。超过 [_maxVisibleAngle] 的牌转到看不见的
+/// 位置，不渲染也点不到，跟原来"划不到就点不到"的行为一致。
 ///
-/// 首次打开时会自动轻轻往右滑一下再弹回来，提示这里可以左右划动
-/// （不然堆叠起来的牌看着容易被当成一张静态图片，看不出能滑动）。
-class _CardFan extends StatefulWidget {
-  const _CardFan({
+/// 交互上用 [GestureDetector] 直接把水平拖拽位移换算成圆环的转动角度，
+/// 松手时按当时的甩动速度用 [FrictionSimulation] 做惯性减速旋转，
+/// 模拟"转卡盘"的手感。首次打开时会自动轻轻转一点再弹回来，提示这里
+/// 可以拖拽旋转。
+class _CardWheel extends StatefulWidget {
+  const _CardWheel({
     required this.totalCards,
     required this.pickedIndices,
     required this.disabled,
@@ -208,67 +214,147 @@ class _CardFan extends StatefulWidget {
 
   static const double _cardWidth = 96;
   static const double _cardHeight = _cardWidth * 1.4;
-  static const double _itemExtent = 34;
+
+  /// 弧上相邻两张牌之间的间距，沿用原扇形 [_itemExtent] 的密度感。
+  static const double _arcSpacing = 34;
+
+  /// 超过这个角度（弧度）的牌视为转到看不见的位置，不渲染。
+  static const double _maxVisibleAngle = 50 * math.pi / 180;
 
   @override
-  State<_CardFan> createState() => _CardFanState();
+  State<_CardWheel> createState() => _CardWheelState();
 }
 
-class _CardFanState extends State<_CardFan> {
-  final _scrollController = ScrollController();
+class _CardWheelState extends State<_CardWheel>
+    with SingleTickerProviderStateMixin {
+  late final double _radius =
+      widget.totalCards * _CardWheel._arcSpacing / (2 * math.pi);
+  late final double _angleStep = 2 * math.pi / widget.totalCards;
+
+  late final AnimationController _rotationController =
+      AnimationController.unbounded(vsync: this)
+        ..addListener(() => setState(() {}));
+
+  double get _rotation => _rotationController.value;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _playSwipeHint());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _playRotateHint());
   }
 
-  Future<void> _playSwipeHint() async {
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _playRotateHint() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    if (!mounted || !_scrollController.hasClients) return;
-    await _scrollController.animateTo(
-      100,
+    if (!mounted) return;
+    await _rotationController.animateTo(
+      _angleStep * 1.6,
       duration: const Duration(milliseconds: 550),
       curve: Curves.easeOut,
     );
-    if (!mounted || !_scrollController.hasClients) return;
-    await _scrollController.animateTo(
+    if (!mounted) return;
+    await _rotationController.animateTo(
       0,
       duration: const Duration(milliseconds: 550),
       curve: Curves.easeInOut,
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  void _onPanUpdate(DragUpdateDetails details) {
+    _rotationController.stop();
+    _rotationController.value -= details.delta.dx / _radius;
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    final velocity = -details.velocity.pixelsPerSecond.dx / _radius;
+    _rotationController.animateWith(
+      FrictionSimulation(0.15, _rotation, velocity),
+    );
+  }
+
+  /// 把角度归一化到 (-π, π]，这样才能算出每张牌离圆环"正面"最近的那一圈
+  /// 角度，而不是绕了好几圈之后的原始角度。
+  double _normalizeAngle(double angle) {
+    const twoPi = 2 * math.pi;
+    var a = (angle + math.pi) % twoPi;
+    if (a < 0) a += twoPi;
+    return a - math.pi;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: _CardFan._cardHeight,
-      child: ListView.builder(
-        controller: _scrollController,
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemExtent: _CardFan._itemExtent,
-        itemCount: widget.totalCards,
-        itemBuilder: (context, index) {
-          final picked = widget.pickedIndices.contains(index);
-          return OverflowBox(
-            minWidth: _CardFan._cardWidth,
-            maxWidth: _CardFan._cardWidth,
-            alignment: Alignment.centerLeft,
-            child: _CardBackTile(
-              picked: picked,
-              disabled: widget.disabled && !picked,
-              onTap: () => widget.onTap(index),
+    const cutoff = _CardWheel._maxVisibleAngle;
+    final maxDy = _radius * (1 - math.cos(cutoff));
+    final stackHeight = maxDy + _CardWheel._cardHeight;
+
+    final visible = <MapEntry<int, double>>[];
+    for (var i = 0; i < widget.totalCards; i++) {
+      final normalized = _normalizeAngle(i * _angleStep - _rotation);
+      if (normalized.abs() <= cutoff) {
+        visible.add(MapEntry(i, normalized));
+      }
+    }
+    // 离正面越远越先画，越近的后画、盖在上面，模拟卡片朝向观众叠放。
+    visible.sort((a, b) => b.value.abs().compareTo(a.value.abs()));
+
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onPanUpdate: _onPanUpdate,
+      onPanEnd: _onPanEnd,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final centerX = constraints.maxWidth / 2;
+          return SizedBox(
+            width: double.infinity,
+            height: stackHeight,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                for (final entry in visible)
+                  _buildTile(entry.key, entry.value, cutoff, centerX),
+              ],
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildTile(int index, double angle, double cutoff, double centerX) {
+    final dx = _radius * math.sin(angle);
+    final dy = _radius * (1 - math.cos(angle));
+    final t = angle.abs() / cutoff;
+    final scale = 1.0 - 0.35 * t;
+    final fade = 1.0 - 0.45 * t;
+    final picked = widget.pickedIndices.contains(index);
+
+    return Positioned(
+      left: centerX + dx - _CardWheel._cardWidth / 2,
+      top: dy,
+      child: Transform.rotate(
+        angle: angle * 0.6,
+        alignment: Alignment.topCenter,
+        child: Transform.scale(
+          scale: scale,
+          alignment: Alignment.topCenter,
+          child: Opacity(
+            opacity: fade,
+            child: SizedBox(
+              width: _CardWheel._cardWidth,
+              height: _CardWheel._cardHeight,
+              child: _CardBackTile(
+                picked: picked,
+                disabled: widget.disabled && !picked,
+                onTap: () => widget.onTap(index),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

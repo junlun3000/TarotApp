@@ -23,6 +23,13 @@ class ReadingHistoryRepository {
     await _box!.put(entry.id, entry.toJson());
   }
 
+  /// 按 id 取回单条记录——AI 解读生成完之后要用这条原始记录回填 [ReadingHistoryEntry.aiReading]。
+  ReadingHistoryEntry? getEntry(String id) {
+    final raw = _box!.get(id);
+    if (raw == null) return null;
+    return ReadingHistoryEntry.fromJson(Map<String, dynamic>.from(raw));
+  }
+
   Future<void> deleteEntry(String id) => _box!.delete(id);
 
   /// 按时间从新到旧排序返回全部历史记录。
