@@ -154,13 +154,16 @@ async function handleGenerateReading(request, env) {
   // 跟紫微那边遇到的是同一类问题：Sonnet 5 默认开自适应思考，有时会把
   // 大部分 token 预算耗在 thinking 上，导致正文 JSON 写到一半被截断；
   // 也可能在预算够用的情况下自己提前 end_turn。这里同样关闭 thinking、
-  // 校验结果完整性，不完整就重试一次。
+  // 校验结果完整性，不完整就重试。3000 token 的预算实测偶尔还是不够
+  // （3-4 张牌的完整解读，观察到过第一次请求两次内部重试都失败），
+  // 提到 4500 并把重试次数提到 3 次，降低这种"抽到的牌完全没保存到
+  // 历史记录"的概率。
   let reading;
   let lastError;
-  for (let attempt = 0; attempt < 2 && !reading; attempt++) {
+  for (let attempt = 0; attempt < 3 && !reading; attempt++) {
     const { data, error } = await callAnthropic(env, {
       model: ANTHROPIC_MODEL,
-      max_tokens: 3000,
+      max_tokens: 4500,
       thinking: { type: 'disabled' },
       output_config: { format: { type: 'json_schema', schema: READING_SCHEMA } },
       messages: [{ role: 'user', content: prompt }],

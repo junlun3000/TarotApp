@@ -65,17 +65,34 @@ class _AiReadingScreenState extends State<AiReadingScreen> {
   }
 
   Future<AiReading> _requestReading() {
-    final future = _service.generateReading(
-      spreadName: widget.spreadName,
-      drawnCards: widget.drawnCards,
-      question: widget.question,
-      background: widget.background,
-    );
+    final future = _generateWithRetry();
     future.then((reading) {
       if (mounted) setState(() => _loadedReading = reading);
       _saveReadingToHistory(reading);
     }).catchError((Object _) {});
     return future;
+  }
+
+  /// Worker 那边已经会内部重试几次（写不完整就重来），但小概率还是会
+  /// 全部失败——一旦失败，这次抽的牌就完全没有解读可存进历史记录了。
+  /// 这里客户端再补一次重试，两边叠加起来把"没保存成功"的概率压得更低，
+  /// 两次都失败再把错误交给 [_ErrorBody] 的手动重试按钮。
+  Future<AiReading> _generateWithRetry() async {
+    try {
+      return await _service.generateReading(
+        spreadName: widget.spreadName,
+        drawnCards: widget.drawnCards,
+        question: widget.question,
+        background: widget.background,
+      );
+    } catch (_) {
+      return _service.generateReading(
+        spreadName: widget.spreadName,
+        drawnCards: widget.drawnCards,
+        question: widget.question,
+        background: widget.background,
+      );
+    }
   }
 
   /// 把生成好的解读回填进对应的历史记录，这样用户之后翻历史记录也能
