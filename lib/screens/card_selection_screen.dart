@@ -187,13 +187,15 @@ class _CardSelectionScreenState extends State<CardSelectionScreen> {
   }
 }
 
-/// 78 张牌背排成一圈（PTCG Pocket 抽卡式），拖拽转动圆环来浏览、点选。
+/// 78 张牌背绕成一整圈（PTCG Pocket 抽卡式），拖拽转动圆环来浏览、点选。
 ///
-/// 实现技巧：把牌沿一个大圆的圆周等角摆开，圆心放在可视区域下方（屏幕外），
-/// 只露出圆周顶部一小段弧——所以看起来像"一圈牌"向两侧弯出屏幕，而不是
-/// 现在这种直线扇形。半径按 [_arcSpacing] 换算，让弧上每张牌之间的间距
-/// 跟原来的直线扇形手感一致。超过 [_maxVisibleAngle] 的牌转到看不见的
-/// 位置，不渲染也点不到，跟原来"划不到就点不到"的行为一致。
+/// 实现技巧：78 张牌均匀分布在一整圈圆周上（[_angleStep] = 360°/78），
+/// 用类似"斜着看一个圆环"的椭圆投影摆位置：离用户最近（正面，角度 0）
+/// 的牌摆在最下面、最大最亮；角度越往两边转，牌就沿椭圆往上移、变小
+/// 变暗，转到正后方（角度 ±180°）时摆在最上面、又小又暗——这样能同时
+/// 看到"眼前一排大牌"和"背后绕上去的一圈小牌"，才像真的是一整圈牌，
+/// 而不是一段浮在半空的弧。只有正面 [_interactiveCutoff] 范围内的牌
+/// 足够大、足够正对着人，才能点选；背后那一圈纯粹是装饰，不响应点击。
 ///
 /// 交互上用 [GestureDetector] 直接把水平拖拽位移换算成圆环的转动角度，
 /// 松手时按当时的甩动速度用 [FrictionSimulation] 做惯性减速旋转，
@@ -215,11 +217,15 @@ class _CardWheel extends StatefulWidget {
   static const double _cardWidth = 96;
   static const double _cardHeight = _cardWidth * 1.4;
 
-  /// 弧上相邻两张牌之间的间距，沿用原扇形 [_itemExtent] 的密度感。
+  /// 正面那一排相邻两张牌之间的间距，沿用原扇形的密度感。
   static const double _arcSpacing = 34;
 
-  /// 超过这个角度（弧度）的牌视为转到看不见的位置，不渲染。
-  static const double _maxVisibleAngle = 50 * math.pi / 180;
+  /// 正面这一圈能看清、能点选的角度范围（弧度）；超出这个范围的牌
+  /// 已经转到侧后方，只作为背景装饰。
+  static const double _interactiveCutoff = 55 * math.pi / 180;
+
+  /// 椭圆投影里，从最下面（正面）转到最上面（正后方）总共要爬多高。
+  static const double _ringRise = 190;
 
   @override
   State<_CardWheel> createState() => _CardWheelState();
@@ -288,18 +294,15 @@ class _CardWheelState extends State<_CardWheel>
 
   @override
   Widget build(BuildContext context) {
-    const cutoff = _CardWheel._maxVisibleAngle;
-    const stackHeight = _CardWheel._cardHeight;
+    final all = <MapEntry<int, double>>[
+      for (var i = 0; i < widget.totalCards; i++)
+        MapEntry(i, _normalizeAngle(i * _angleStep - _rotation)),
+    ];
+    // 正后方（景深最深）先画，正面（景深最浅）最后画、盖在最上面，
+    // 这样近处的牌才会挡住绕到背后的远处的牌。
+    all.sort((a, b) => math.cos(a.value).compareTo(math.cos(b.value)));
 
-    final visible = <MapEntry<int, double>>[];
-    for (var i = 0; i < widget.totalCards; i++) {
-      final normalized = _normalizeAngle(i * _angleStep - _rotation);
-      if (normalized.abs() <= cutoff) {
-        visible.add(MapEntry(i, normalized));
-      }
-    }
-    // 离正面越远越先画，越近的后画、盖在上面，模拟卡片朝向观众叠放。
-    visible.sort((a, b) => b.value.abs().compareTo(a.value.abs()));
+    const stackHeight = _CardWheel._ringRise + _CardWheel._cardHeight;
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -314,8 +317,7 @@ class _CardWheelState extends State<_CardWheel>
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                for (final entry in visible)
-                  _buildTile(entry.key, entry.value, cutoff, centerX),
+                for (final entry in all) _buildTile(entry.key, entry.value, centerX),
               ],
             ),
           );
@@ -324,26 +326,33 @@ class _CardWheelState extends State<_CardWheel>
     );
   }
 
-  Widget _buildTile(int index, double angle, double cutoff, double centerX) {
-    // dx 用 sin 而不是线性映射，让牌越靠边越密——跟真的绕在一个圆柱面上
-    // 、只是站着不弯曲的牌一样，边上的牌会自然"挤"在一起而不是拉开。
+  Widget _buildTile(int index, double angle, double centerX) {
+    // depth：1 = 正对着人（最近），-1 = 转到正后方（最远）。
+    final depth = math.cos(angle);
+    final frontness = (depth + 1) / 2; // 0（正后方）..1（正面）
     final dx = _radius * math.sin(angle);
-    final t = angle.abs() / cutoff;
-    final scale = 1.0 - 0.2 * t;
-    final fade = 1.0 - 0.35 * t;
-    // 越靠边的牌，转开的一面被"背光"，叠一层半透明黑压暗它，配合下面
-    // 的 rotateY 才会看起来像真的转过去了，而不是单纯变窄变淡。
-    final shade = 0.5 * t;
+    final scale = 0.3 + 0.7 * frontness;
+    final fade = 0.4 + 0.6 * frontness;
+    // 转开的一面被"背光"，叠一层半透明黑压暗它，越靠后方越暗。
+    final shade = (1 - frontness) * 0.45;
+    // 正面摆最下面、正后方摆最上面，两边（角度 ±90°）摆中间高度——
+    // 连起来正好是一圈立起来、往后倾斜的椭圆，能同时看见眼前一排大牌
+    // 和背后绕上去的小牌。
+    final top = frontness * _CardWheel._ringRise;
+    final interactive = angle.abs() <= _CardWheel._interactiveCutoff;
     final picked = widget.pickedIndices.contains(index);
+    // rotateY 角度封顶，不然绕到侧后方的牌会转过 90° 变成镜像，看着很怪；
+    // 靠缩放和压暗去表现"转得更远"，旋转本身封顶在一个自然的斜角上。
+    final rotY = (angle * 0.85).clamp(-1.05, 1.05);
 
     return Positioned(
       left: centerX + dx - _CardWheel._cardWidth / 2,
-      top: 0,
+      top: top,
       child: Transform(
         alignment: Alignment.center,
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.0022)
-          ..rotateY(angle * 0.85),
+          ..rotateY(rotY),
         child: Transform.scale(
           scale: scale,
           alignment: Alignment.center,
@@ -356,7 +365,7 @@ class _CardWheelState extends State<_CardWheel>
                 children: [
                   _CardBackTile(
                     picked: picked,
-                    disabled: widget.disabled && !picked,
+                    disabled: !interactive || (widget.disabled && !picked),
                     onTap: () => widget.onTap(index),
                   ),
                   if (shade > 0)
