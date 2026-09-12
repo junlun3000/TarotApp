@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../models/theory_article.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 
 /// 通用的"理论"文章阅读页——历史起源/准备工作/占卜流程/注意事项/牌组架构
 /// 这 5 篇文章共用同一个页面结构，只是塞的内容（[TheoryArticle]）不同。
@@ -33,6 +34,9 @@ class TheoryArticleScreen extends StatelessWidget {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

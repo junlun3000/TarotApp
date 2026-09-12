@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/spread_preset.dart';
 import '../widgets/app_bottom_nav_bar.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import '../widgets/spread_preview_icon.dart';
 import 'spread_detail_screen.dart';
 
@@ -71,6 +72,9 @@ class _SpreadSelectionScreenState extends State<SpreadSelectionScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       const SizedBox(height: 8),

@@ -8,6 +8,7 @@ import '../models/drawn_card.dart';
 import '../models/spread_preset.dart';
 import '../models/tarot_card.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'draw_result_screen.dart';
 
 /// "扫描实体牌"页——给手上有真实塔罗牌的用户用：不走 App 里的数字随机
@@ -171,6 +172,9 @@ class _CardScanScreenState extends State<CardScanScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       _Header(title: widget.preset.nameZh),

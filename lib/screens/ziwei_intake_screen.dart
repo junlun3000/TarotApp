@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/app_bottom_nav_bar.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'ziwei_chart_screen.dart';
 
 /// 紫微斗数的出生信息填写页——排盘需要阳历生日、时辰（十二时辰，不是
@@ -138,6 +139,9 @@ class _ZiweiIntakeScreenState extends State<ZiweiIntakeScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       const SizedBox(height: 8),

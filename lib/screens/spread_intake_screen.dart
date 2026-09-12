@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../models/spread_preset.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'card_scan_screen.dart';
 import 'card_selection_screen.dart';
 
@@ -133,6 +134,9 @@ class _SpreadIntakeScreenState extends State<SpreadIntakeScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       _Header(title: widget.preset.nameZh),

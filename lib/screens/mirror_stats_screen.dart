@@ -9,6 +9,7 @@ import '../models/reading_history_entry.dart';
 import '../models/tarot_card.dart';
 import '../widgets/app_bottom_nav_bar.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'reading_history_screen.dart';
 
 /// "镜子"统计分析页 —— 还原自 Figma 里的 "Зеркало"。
@@ -54,6 +55,9 @@ class _MirrorStatsScreenState extends State<MirrorStatsScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: FutureBuilder<List<TarotCard>>(
                     future: _deckFuture,
                     builder: (context, snapshot) {

@@ -9,6 +9,7 @@ import '../data/tarot_card_repository.dart';
 import '../models/drawn_card.dart';
 import '../models/spread_preset.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import '../widgets/card_flip_reveal.dart';
 import 'draw_result_screen.dart';
 
@@ -115,6 +116,9 @@ class _CardSelectionScreenState extends State<CardSelectionScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

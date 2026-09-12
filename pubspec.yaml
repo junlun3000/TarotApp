@@ -52,6 +52,30 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+# 生成各平台 App 图标：`dart run flutter_launcher_icons`。源图
+# assets/icon/app_icon.png 是从 app_icon_source.png（项目根目录，用户提供
+# 的原始设计稿备份）裁掉四周留白后得到的满版方图——不要直接用带留白的那张
+# 当 image_path，各平台会各自套自己的圆角遮罩，留白会变成图标四角露白。
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/app_icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    background_color: "#0C091D"
+    theme_color: "#0C091D"
+  windows:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

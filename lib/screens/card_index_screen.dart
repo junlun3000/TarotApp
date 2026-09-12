@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../data/tarot_card_repository.dart';
 import '../models/tarot_card.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'card_detail_screen.dart';
 
 /// "完整牌意"页 —— 按大阿尔卡那/四个花色分组，浏览全部 78 张牌，
@@ -54,6 +55,9 @@ class _CardIndexScreenState extends State<CardIndexScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

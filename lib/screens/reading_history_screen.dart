@@ -7,6 +7,7 @@ import '../models/drawn_card.dart';
 import '../models/reading_history_entry.dart';
 import '../models/tarot_card.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'reading_history_detail_screen.dart';
 
 /// "阅读日记"（历史记录）页 —— 还原自 Figma 里的 "Дневник чтений"。
@@ -51,6 +52,9 @@ class _ReadingHistoryScreenState extends State<ReadingHistoryScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

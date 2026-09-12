@@ -5,6 +5,7 @@ import '../data/ziwei_palace_meta.dart';
 import '../data/ziwei_service.dart';
 import '../models/ziwei_reading.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 
 /// 紫微斗数 AI 解读页——整体印象 + 挑几个宫位解读 + 当前运势 + 建议，
 /// 排版思路跟塔罗那边的 AiReadingScreen 是同一套（卡片堆叠），只是内容
@@ -74,6 +75,9 @@ class _ZiweiReadingScreenState extends State<ZiweiReadingScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

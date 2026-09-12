@@ -55,17 +55,27 @@
   <script src="flutter_bootstrap.js" async></script>
 
   <script>
-    // 部分内嵌 WebView（比如 Facebook/Messenger 的应用内浏览器）在自己的
-    // 工具栏收起/展开、地址栏变化时不会正确触发标准的 resize 事件，导致
-    // Flutter Web（CanvasKit）用一个过时的窗口尺寸把画布画小了，右边或
-    // 下边留黑边。这里在页面稳定后、以及 visualViewport 变化时都主动
-    // 补发一次 resize 事件，让 Flutter 引擎重新measure一次。
+    // 部分内嵌 WebView（比如 Facebook/Messenger 的应用内浏览器，以及 iOS
+    // "添加到主屏幕"后以 standalone 模式启动的情况）在自己的工具栏收起/
+    // 展开、状态栏/安全区域稳定下来之前不会正确触发标准的 resize 事件，
+    // 导致 Flutter Web（CanvasKit）用一个过时的窗口尺寸把画布画小/画偏了，
+    // 右边或下边留黑边。standalone 启动比普通浏览器标签页更慢稳定（有启动
+    // 动画、状态栏叠加层等），所以这里的重试次数和时间跨度都比之前更长，
+    // 并且额外监听 pageshow / visibilitychange（standalone 从后台恢复、
+    // 或者从主屏幕图标冷启动时，这两个事件比 load 更可靠）。
     function nudgeResize() {
       window.dispatchEvent(new Event('resize'));
     }
-    window.addEventListener('load', function () {
-      setTimeout(nudgeResize, 300);
-      setTimeout(nudgeResize, 1000);
+    var resizeRetryDelays = [100, 300, 600, 1000, 1500, 2500, 4000];
+    function scheduleResizeRetries() {
+      resizeRetryDelays.forEach(function (delay) {
+        setTimeout(nudgeResize, delay);
+      });
+    }
+    window.addEventListener('load', scheduleResizeRetries);
+    window.addEventListener('pageshow', scheduleResizeRetries);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) scheduleResizeRetries();
     });
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', nudgeResize);

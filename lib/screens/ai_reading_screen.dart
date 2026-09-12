@@ -9,6 +9,7 @@ import '../data/share_reading.dart';
 import '../models/ai_reading.dart';
 import '../models/drawn_card.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import '../widgets/reading_share_card.dart';
 
 /// AI 深度解读页 —— 把问题 + 抽到的牌交给后端 Worker 转发给 Claude，
@@ -207,6 +208,9 @@ class _AiReadingScreenState extends State<AiReadingScreen> {
                     ),
                   ),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

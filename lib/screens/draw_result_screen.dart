@@ -8,6 +8,7 @@ import '../models/drawn_card.dart';
 import '../models/reading_history_entry.dart';
 import '../models/spread_preset.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import '../widgets/card_flip_reveal.dart';
 import 'ai_reading_screen.dart';
 import 'card_detail_screen.dart';
@@ -127,6 +128,9 @@ class _DrawResultScreenState extends State<DrawResultScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       _Header(title: widget.preset.nameZh),

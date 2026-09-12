@@ -5,6 +5,7 @@ import '../data/ziwei_palace_meta.dart';
 import '../data/ziwei_service.dart';
 import '../models/ziwei_chart.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'ziwei_reading_screen.dart';
 
 /// 紫微斗数命盘可视化页——传统的十二宫格布局：外圈固定 12 格按地支
@@ -74,6 +75,9 @@ class _ZiweiChartScreenState extends State<ZiweiChartScreen> {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/drawn_card.dart';
 import '../models/tarot_card.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import '../widgets/card_flip_reveal.dart';
 import '../widgets/decorative_image.dart';
 
@@ -86,6 +87,9 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                 const BackgroundTexture(),
                 const DecorativeImage(spec: _starDeco),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       _Header(title: card.nameZh),

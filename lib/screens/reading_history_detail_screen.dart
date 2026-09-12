@@ -7,6 +7,7 @@ import '../models/reading_history_entry.dart';
 import '../models/spread_preset.dart';
 import '../models/tarot_card.dart';
 import '../widgets/background_texture.dart';
+import '../widgets/responsive_app_shell.dart';
 import 'card_detail_screen.dart';
 
 /// 回看一条历史记录里具体抽到的牌 —— 按牌阵实际布局摆放，
@@ -60,6 +61,9 @@ class ReadingHistoryDetailScreen extends StatelessWidget {
               children: [
                 const BackgroundTexture(),
                 SafeArea(
+                  minimum: EdgeInsets.only(
+                    top: ResponsiveAppShell.topCropInset(context),
+                  ),
                   child: Column(
                     children: [
                       Padding(
